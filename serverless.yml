@@ -1,0 +1,36 @@
+
+
+service: test-task
+
+custom:
+  bucket: test-task-bucket-111
+
+app: test-task-app
+org: heyapple1395
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  stage: dev
+  region: us-east-1
+  iamRoleStatements:
+    - Effect: Allow
+      Action: 
+        - "s3:*"
+      Resource: "arn:aws:s3:::test-task-bucket-1395/*"
+
+functions:
+  hello:
+    handler: function.writeToDb
+    events:
+     - http:
+         path: /
+         method: get
+         cors: true
+resources:
+  Resources:
+    S3OperationsBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: test-task-bucket-1395
+        
